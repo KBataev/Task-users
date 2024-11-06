@@ -1,3 +1,6 @@
+.add-user-button {
+    margin-top: 20px;
+}
 body {
     display: flex;
     align-items: center;

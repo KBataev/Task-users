@@ -10,7 +10,14 @@ import java.util.List;
 
 @Repository
 public class UserDaoImp implements UserDao {
+    @PersistenceContext
+    private EntityManager em;
 
+    @Override
+    public List<User> getUsers() {
+
+        return em.createQuery("SELECT u FROM User u", User.class).getResultList();
+    }
 
     @Override
     @Transactional
@@ -21,12 +28,23 @@ public class UserDaoImp implements UserDao {
         }
     }
 
-    @PersistenceContext
-    private EntityManager em;
-
-    public List<User> getUsers() {
-
-        return em.createQuery("SELECT u FROM User u", User.class).getResultList();
+    @Override
+    @Transactional
+    public void addUser(User user) {
+        em.persist(user);
     }
+
+    @Override
+    public User getUserById(int id) {
+        return em.find(User.class, id);
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(User user) {
+        em.merge(user);
+    }
+
+
 
 }
